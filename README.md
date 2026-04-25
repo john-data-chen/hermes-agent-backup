@@ -1,6 +1,6 @@
 # Backup of Hermes Agent
 
-I use Hermes Agent (https://github.com/nousresearch/hermes-agent) to execute routine jobs — this repo is an example of how I work with agents.
+I use [Hermes Agent](https://github.com/nousresearch/hermes-agent) to execute routine jobs — this repo is an example of how I work with agents.
 
 I created a skill so the Agent can back itself up and send me the zip file via WhatsApp, with a cron job handling it automatically every week.
 
