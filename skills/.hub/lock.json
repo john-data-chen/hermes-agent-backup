@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "installed": {
+    "doc-coauthoring": {
+      "source": "github",
+      "identifier": "anthropics/skills/skills/doc-coauthoring",
+      "trust_level": "trusted",
+      "scan_verdict": "safe",
+      "content_hash": "sha256:2e47d78846faeea4",
+      "install_path": "doc-coauthoring",
+      "files": [
+        "SKILL.md"
+      ],
+      "metadata": {},
+      "installed_at": "2026-04-23T08:12:24.455995+00:00",
+      "updated_at": "2026-04-23T08:12:24.456055+00:00"
+    }
+  }
+}

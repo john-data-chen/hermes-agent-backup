@@ -1,0 +1,136 @@
+{
+  "jobs": [
+    {
+      "id": "6612902dca66",
+      "name": "\u6bcf\u9031\u66f4\u65b0 npm packages",
+      "prompt": "\u57f7\u884c npm package \u66f4\u65b0\u6d41\u7a0b\u81f3 ~/projects/next-dnd-starter-kit/\uff1a\n\n1. cd ~/projects/next-dnd-starter-kit\n2. \u6aa2\u67e5\u4e26\u5efa\u7acb\u5fc5\u8981\u7684\u74b0\u5883\u8b8a\u6578\u6a94\u6848\uff08.env, .env.test\uff09\uff0c\u5982\u679c AUTH_SECRET \u662f placeholder \u5c31\u751f\u6210\u65b0\u7684\n3. \u57f7\u884c pnpm update --latest \u66f4\u65b0\u6240\u6709 packages\n4. \u6aa2\u67e5 package.json \u662f\u5426\u6709\u8b8a\u66f4\uff1a\n   - \u5982\u679c\u6709\u8b8a\u66f4\uff1a\u57f7\u884c pnpm lint, pnpm test, pnpm build \u9a57\u8b49\uff0c\u7136\u5f8c commit \u4e26 push\uff0c\u5efa\u7acb PR\n   - \u5982\u679c\u6c92\u6709\u8b8a\u66f4\uff08\u6240\u6709 packages \u5df2\u7d93\u662f\u6700\u65b0\uff09\uff1a\u901a\u77e5\u6211\u300c\u6c92\u6709\u767c\u73fe\u65b0\u7684 package \u66f4\u65b0\u300d\n5. \u5982\u6709\u9700\u8981\u4fee\u6b63\u7248\u672c\uff08\u5982 @types/node \u7dad\u6301 ^24.12.2\uff09\n\n\u958b\u59cb\u57f7\u884c\u3002",
+      "skills": [
+        "npm-package-update-workflow"
+      ],
+      "skill": "npm-package-update-workflow",
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "10 1 * * 6",
+        "display": "10 1 * * 6"
+      },
+      "schedule_display": "10 1 * * 6",
+      "repeat": {
+        "times": null,
+        "completed": 5
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-04-25T06:33:22.404950+08:00",
+      "next_run_at": "2026-05-02T01:10:00+08:00",
+      "last_run_at": "2026-04-26T06:36:18.883777+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "whatsapp",
+        "chat_id": "142756475314418@lid",
+        "chat_name": "John Chen",
+        "thread_id": null
+      },
+      "enabled_toolsets": [
+        "terminal",
+        "file",
+        "web"
+      ]
+    },
+    {
+      "id": "bfddf898b8cf",
+      "name": "\u6bcf\u9031\u66f4\u65b0 turborepo packages",
+      "prompt": "\u57f7\u884c npm package \u66f4\u65b0\u6d41\u7a0b\u81f3 ~/projects/turborepo-starter-kit/\uff1a\n\n1. cd ~/projects/turborepo-starter-kit\n2. \u6aa2\u67e5\u4e26\u5efa\u7acb\u5fc5\u8981\u7684\u74b0\u5883\u8b8a\u6578\uff08apps/api/.env, apps/web/.env\uff09\uff0c\u5f9e env.example \u5efa\u7acb\u4e26\u78ba\u8a8d JWT_SECRET \u662f\u6709\u6548\u503c\n3. \u66f4\u65b0\u6839\u76ee\u9304 dependencies \u5230 latest\uff1a\n   pnpm update --latest\n4. \u66f4\u65b0 apps/api\u3001apps/web\u3001packages/ui \u4e09\u500b workspace \u5230 latest\uff1a\n   pnpm --filter turborepo-starter-kit-api --filter turborepo-starter-kit-web --filter @repo/ui update --latest\n5. \u66f4\u65b0 mobile app\uff1a\n   pnpm mobile:expo:upgrade\n6. \u4fee\u6b63 @types/node \u7248\u672c\uff1apython3 -c \"with open('pnpm-workspace.yaml', 'r') as f: content = f.read(); content = content.replace('\\\"@types/node\\\": ^25.6.0', '\\\"@types/node\\\": \\\"24.12.2\\\"'); open('pnpm-workspace.yaml', 'w').write(content)\"\n7. pnpm install\n8. \u57f7\u884c\u9a57\u8b49\u6d41\u7a0b\uff1apnpm turbo run lint && pnpm turbo run test && pnpm turbo run build\n9. git status \u2014 \u5982\u679c\u6709\u8b8a\u66f4\u624d commit+PR\uff1b\u5982\u679c\u7121\u8b8a\u66f4\uff0c\u901a\u77e5\u4f7f\u7528\u8005\u300c\u2705 turborepo-starter-kit \u6aa2\u67e5\u5b8c\u7562\uff0c\u7121\u65b0 package \u66f4\u65b0\u300d\n10. git checkout -b feat/john/update-packages-$(date +%Y%m%d)\n11. git add package.json pnpm-lock.yaml pnpm-workspace.yaml\n12. git commit -m \"chore(deps): update all packages to latest versions\"\n13. git push -u origin HEAD\n14. gh pr create --title \"chore(deps): update all packages to latest versions\" --body \"## Summary\\nUpdates npm packages to latest in root, apps/api, apps/web, apps/mobile, packages/ui.\\n\\n## Testing\\n- pnpm turbo run lint - passed\\n- pnpm turbo run test - passed\\n- pnpm turbo run build - successful\"",
+      "skills": [
+        "npm-package-update-workflow"
+      ],
+      "skill": "npm-package-update-workflow",
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "10 1 * * 6",
+        "display": "10 1 * * 6"
+      },
+      "schedule_display": "10 1 * * 6",
+      "repeat": {
+        "times": null,
+        "completed": 6
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-04-25T06:43:44.311697+08:00",
+      "next_run_at": "2026-05-02T01:10:00+08:00",
+      "last_run_at": "2026-04-26T06:37:55.275671+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "whatsapp",
+        "chat_id": "142756475314418@lid",
+        "chat_name": "John Chen",
+        "thread_id": null
+      },
+      "enabled_toolsets": [
+        "terminal",
+        "file",
+        "web"
+      ]
+    },
+    {
+      "id": "1702d8960874",
+      "name": "\u6bcf\u9031\u5099\u4efd Hermes",
+      "prompt": "\u57f7\u884c Hermes \u5099\u4efd\u6d41\u7a0b\uff1a\n\n1. \u57f7\u884c\u5099\u4efd\u6307\u4ee4\uff1a\n   cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memory 2>/dev/null\n\n2. \u900f\u904e WhatsApp \u767c\u9001\u5099\u4efd\u6a94\u6848\u7d66\u4f7f\u7528\u8005\uff1a\n   \u4f7f\u7528 send_message action='send' \u4e26\u9644\u4e0a MEDIA:/Users/johnchen/hermes_backup.zip\n\n3. \u901a\u77e5\u4f7f\u7528\u8005\u300c\u2705 Hermes \u5099\u4efd\u5df2\u5b8c\u6210\u300d",
+      "skills": [
+        "hermes-backup"
+      ],
+      "skill": "hermes-backup",
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 1 * * 6",
+        "display": "0 1 * * 6"
+      },
+      "schedule_display": "0 1 * * 6",
+      "repeat": {
+        "times": null,
+        "completed": 0
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-04-26T06:40:21.253806+08:00",
+      "next_run_at": "2026-05-02T01:00:00+08:00",
+      "last_run_at": null,
+      "last_status": null,
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "whatsapp",
+        "chat_id": "142756475314418@lid",
+        "chat_name": "John Chen",
+        "thread_id": null
+      },
+      "enabled_toolsets": null
+    }
+  ],
+  "updated_at": "2026-04-26T06:41:10.474970+08:00"
+}
