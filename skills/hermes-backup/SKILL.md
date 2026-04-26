@@ -1,6 +1,6 @@
 ---
 name: hermes-backup
-description: 將 Hermes Agent 的所有資料（skills、scripts、config、cron、memory）壓縮並透過 WhatsApp 發送給使用者
+description: 將 Hermes Agent 的所有資料（skills、scripts、config、cron、memories）壓縮並透過 WhatsApp 發送給使用者
 category: productivity
 ---
 
@@ -16,19 +16,19 @@ category: productivity
 | `~/.hermes/scripts/` | 自訂腳本 |
 | `~/.hermes/config.yaml` | 設定檔 |
 | `~/.hermes/cron/` | Cron job 資料 |
-| `~/.hermes/memory/` | 長期記憶 |
+| `~/.hermes/memories/` | 長期記憶 |
 
 ## 執行步驟
 
 ### 1. 執行備份指令
 
 ```bash
-cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memory
+cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memories
 ```
 
 排除不必要的目錄（如 `scripts` 如果是空的、`audio_cache` 等）：
 ```bash
-cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memory
+cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memories
 ```
 
 ### 2. 檢查檔案大小
@@ -54,5 +54,5 @@ ls -lh hermes_backup.zip
 ## 注意事項
 
 - **音訊快取** (`~/.hermes/audio_cache/`) 不包含在備份中，可省略
-- 如果 `scripts` 或 `memory` 目錄不存在，zip 可能會發出警告但仍正常運作
+- 如果 `scripts` 或 `memories` 目錄不存在，zip 可能會發出警告但仍正常運作
 - 備份檔案建議妥善保管，含有敏感設定資訊
