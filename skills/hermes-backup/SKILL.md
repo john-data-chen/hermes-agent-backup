@@ -20,16 +20,27 @@ category: productivity
 
 ## 執行步驟
 
-### 1. 執行備份指令
+### 1. 執行備份（排除 cron output）
+
+**重要：zip `-x` pattern 只排除檔案，無法排除目錄 entry。** 不能用 `-x ".hermes/cron/output/*"` 來排除 output 目錄，因為 `.hermes/cron` 作為來源目錄會把 output 目錄 entry 直接加進 zip。
+
+正確做法：明確指定 cron 目錄內要備份的子項目，不包含 output。
 
 ```bash
-cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memories
+cd ~
+rm -f hermes_backup.zip
+zip -r hermes_backup.zip \
+  .hermes/skills \
+  .hermes/config.yaml \
+  .hermes/cron/jobs.json \
+  .hermes/memories \
+  -x ".hermes/memories/*.lock"
+
+# 空 lock 檔（.tick.lock, MEMORY.md.lock, USER.md.lock）不備份，沒有任何價值
+# 注意：skills/.hub/lock.json 有內容，保留
 ```
 
-排除不必要的目錄（如 `scripts` 如果是空的、`audio_cache` 等）：
-```bash
-cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memories
-```
+這樣 `.hermes/cron/output` 整個目錄完全不會被加入 zip。
 
 ### 2. 檢查檔案大小
 

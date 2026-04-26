@@ -71,23 +71,39 @@ pnpm update --latest
 # 回復 pnpm-workspace.yaml catalog 中的 @types/node 版本
 # 注意：macOS 的 sed -i 對複雜字元會失敗，使用 Python 較可靠
 python3 -c "
+import re
 with open('pnpm-workspace.yaml', 'r') as f:
     content = f.read()
-content = content.replace('\"@types/node\": ^25.6.0', '\"@types/node\": \"24.12.2\"')
+# 如果 @types/node 版本不是 24.12.2 就改回 24.12.2
+content = re.sub(r'(\"@types/node\":\\s*\")[^\"]+(\")', r'\g<1>24.12.2\g<2>', content)
 with open('pnpm-workspace.yaml', 'w') as f:
     f.write(content)
 "
 
 # 確認 package.json 保持 catalog: 引用（不應被修改）
-# "@types/node": "catalog:"
+# \"@types/node\": \"catalog:\"
 
-# 重新執行 pnpm install 讓 workspace 解析並鎖定正確版本
+# 砍掉 lockfile 並重新執行 pnpm install 讓 workspace 解析並鎖定正確版本
+rm pnpm-lock.yaml
 pnpm install
 ```
 
 > **單一專案（如 next-dnd-starter-kit）** 不需要這個流程，直接用 `pnpm add -D @types/node@24.12.2` 即可。
 
-### 4b. Mobile app 更新（turborepo-starter-kit 專用）
+### 4b. 修正 catalog 版本（砍 lockfile 法）
+
+有時候只改 `pnpm-workspace.yaml` 再執行 `pnpm install`，pnpm 會說 "Lockfile is up to date" 不予更新。這是因為 lockfile 已經是一致的，什麼都沒變。這種情況必須砍掉 lockfile 讓它重新產生：
+
+```bash
+rm pnpm-lock.yaml
+pnpm install
+```
+
+驗證 lockfile 中 `@types/node` 的 specifier 是否為正確版本。
+
+> **為什麼不用 `pnpm install --force`**：pnpm 的 `--force` 在 lockfile 已解析過的情況下仍可能跳過更新。砍掉 lockfile 是最乾淨的方式。
+
+### 4c. Mobile app 更新（turborepo-starter-kit 專用）
 
 Mobile app 使用 `pnpm mobile:expo:upgrade` 更新（這會更新 apps/mobile）：
 ```bash

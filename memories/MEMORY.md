@@ -11,3 +11,7 @@ Hermes Backup 注意事項：備份路徑是 `.hermes/memories/`（有 s），�
 config.yaml 已驗證無 API keys 或 tokens，只有 WHATSAPP_HOME_CHANNEL (只是 chat ID，無安全風險)
 §
 約翰喜歡公開分享他的 agent workflow，但會先手動檢查確認無敏感資訊洩漏
+§
+約翰有兩個不同的 pnpm monorepo：open333crm (~/projects/open333crm) 和 turborepo-starter-kit (~/projects/turborepo-starter-kit)。工作前一定要確認是哪個專案。他曾兩次纠正我搞錯 repo。
+§
+約翰的 `npm-package-update-workflow` skill 有個錯誤流程：當 `@types/node` 版本不是 `^24.12.2`（即版本被改掉）時，要還原為 `^24.12.2`，再執行 `pnpm install`。
