@@ -6,7 +6,7 @@ turborepo-starter-kit workspace update workflow: use `pnpm --filter apps/api --f
 §
 Hermes User Profile/Memory 儲存在 `~/.hermes/memories/` (有 s)，不是 `~/.hermes/memory`。備份時路徑要正確。
 §
-備份 hermes 時的路徑：`.hermes/skills .hermes/config.yaml .hermes/cron .hermes/memories`
+Hermes Backup 注意事項：備份路徑是 `.hermes/memories/`（有 s），不是 `memory`。Cron job 的 `deliver: origin` 只發文字報告，不發附檔。備份跑完後需手動透過 WhatsApp 發送 ~/hermes_backup.zip 給約翰。
 §
 config.yaml 已驗證無 API keys 或 tokens，只有 WHATSAPP_HOME_CHANNEL (只是 chat ID，無安全風險)
 §

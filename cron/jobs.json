@@ -2,7 +2,7 @@
   "jobs": [
     {
       "id": "6612902dca66",
-      "name": "\u6bcf\u9031\u66f4\u65b0 npm packages",
+      "name": "\u6bcf\u9031\u66f4\u65b0 next-dnd-starter-kit npm packages",
       "prompt": "\u57f7\u884c npm package \u66f4\u65b0\u6d41\u7a0b\u81f3 ~/projects/next-dnd-starter-kit/\uff1a\n\n1. cd ~/projects/next-dnd-starter-kit\n2. \u6aa2\u67e5\u4e26\u5efa\u7acb\u5fc5\u8981\u7684\u74b0\u5883\u8b8a\u6578\u6a94\u6848\uff08.env, .env.test\uff09\uff0c\u5982\u679c AUTH_SECRET \u662f placeholder \u5c31\u751f\u6210\u65b0\u7684\n3. \u57f7\u884c pnpm update --latest \u66f4\u65b0\u6240\u6709 packages\n4. \u6aa2\u67e5 package.json \u662f\u5426\u6709\u8b8a\u66f4\uff1a\n   - \u5982\u679c\u6709\u8b8a\u66f4\uff1a\u57f7\u884c pnpm lint, pnpm test, pnpm build \u9a57\u8b49\uff0c\u7136\u5f8c commit \u4e26 push\uff0c\u5efa\u7acb PR\n   - \u5982\u679c\u6c92\u6709\u8b8a\u66f4\uff08\u6240\u6709 packages \u5df2\u7d93\u662f\u6700\u65b0\uff09\uff1a\u901a\u77e5\u6211\u300c\u6c92\u6709\u767c\u73fe\u65b0\u7684 package \u66f4\u65b0\u300d\n5. \u5982\u6709\u9700\u8981\u4fee\u6b63\u7248\u672c\uff08\u5982 @types/node \u7dad\u6301 ^24.12.2\uff09\n\n\u958b\u59cb\u57f7\u884c\u3002",
       "skills": [
         "npm-package-update-workflow"
@@ -14,10 +14,10 @@
       "script": null,
       "schedule": {
         "kind": "cron",
-        "expr": "10 1 * * 6",
-        "display": "10 1 * * 6"
+        "expr": "0 1 * * 1",
+        "display": "0 1 * * 1"
       },
-      "schedule_display": "10 1 * * 6",
+      "schedule_display": "0 1 * * 1",
       "repeat": {
         "times": null,
         "completed": 5
@@ -27,7 +27,7 @@
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-04-25T06:33:22.404950+08:00",
-      "next_run_at": "2026-05-02T01:10:00+08:00",
+      "next_run_at": "2026-04-27T01:00:00+08:00",
       "last_run_at": "2026-04-26T06:36:18.883777+08:00",
       "last_status": "ok",
       "last_error": null,
@@ -59,10 +59,10 @@
       "script": null,
       "schedule": {
         "kind": "cron",
-        "expr": "10 1 * * 6",
-        "display": "10 1 * * 6"
+        "expr": "5 1 * * 1",
+        "display": "5 1 * * 1"
       },
-      "schedule_display": "10 1 * * 6",
+      "schedule_display": "5 1 * * 1",
       "repeat": {
         "times": null,
         "completed": 6
@@ -72,7 +72,7 @@
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-04-25T06:43:44.311697+08:00",
-      "next_run_at": "2026-05-02T01:10:00+08:00",
+      "next_run_at": "2026-04-27T01:05:00+08:00",
       "last_run_at": "2026-04-26T06:37:55.275671+08:00",
       "last_status": "ok",
       "last_error": null,
@@ -93,7 +93,7 @@
     {
       "id": "1702d8960874",
       "name": "\u6bcf\u9031\u5099\u4efd Hermes",
-      "prompt": "\u57f7\u884c Hermes \u5099\u4efd\u6d41\u7a0b\uff1a\n\n1. \u57f7\u884c\u5099\u4efd\u6307\u4ee4\uff1a\n   cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memory 2>/dev/null\n\n2. \u900f\u904e WhatsApp \u767c\u9001\u5099\u4efd\u6a94\u6848\u7d66\u4f7f\u7528\u8005\uff1a\n   \u4f7f\u7528 send_message action='send' \u4e26\u9644\u4e0a MEDIA:/Users/johnchen/hermes_backup.zip\n\n3. \u901a\u77e5\u4f7f\u7528\u8005\u300c\u2705 Hermes \u5099\u4efd\u5df2\u5b8c\u6210\u300d",
+      "prompt": "\u57f7\u884c Hermes \u5099\u4efd\u6d41\u7a0b\uff1a\n\n1. \u57f7\u884c\u5099\u4efd\u6307\u4ee4\uff1a\n   cd ~ && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/cron .hermes/memories 2>/dev/null\n\n2. \u900f\u904e WhatsApp \u767c\u9001\u5099\u4efd\u6a94\u6848\u7d66\u4f7f\u7528\u8005\uff1a\n   \u4f7f\u7528 send_message action='send' \u4e26\u9644\u4e0a MEDIA:/Users/johnchen/hermes_backup.zip\n\n3. \u901a\u77e5\u4f7f\u7528\u8005\u300c\u2705 Hermes \u5099\u4efd\u5df2\u5b8c\u6210\u300d",
       "skills": [
         "hermes-backup"
       ],
@@ -104,10 +104,49 @@
       "script": null,
       "schedule": {
         "kind": "cron",
-        "expr": "0 1 * * 6",
-        "display": "0 1 * * 6"
+        "expr": "10 1 * * 1",
+        "display": "10 1 * * 1"
       },
-      "schedule_display": "0 1 * * 6",
+      "schedule_display": "10 1 * * 1",
+      "repeat": {
+        "times": null,
+        "completed": 4
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-04-26T06:40:21.253806+08:00",
+      "next_run_at": "2026-04-27T01:10:00+08:00",
+      "last_run_at": "2026-04-26T13:25:38.293351+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "whatsapp",
+        "chat_id": "142756475314418@lid",
+        "chat_name": "John Chen",
+        "thread_id": null
+      },
+      "enabled_toolsets": null
+    },
+    {
+      "id": "06bd648730a3",
+      "name": "\u6bcf\u9031\u66f4\u65b0 Hermes Agent",
+      "prompt": "\u57f7\u884c\u4ee5\u4e0b\u6307\u4ee4\u66f4\u65b0 Hermes Agent \u672c\u9ad4\uff1a\n\n1. hermes update\n2. \u78ba\u8a8d\u66f4\u65b0\u7d50\u679c\uff0c\u5831\u544a\u662f\u5426\u6210\u529f\n\n\u5982\u679c\u66f4\u65b0\u5931\u6557\uff0c\u8aaa\u660e\u932f\u8aa4\u539f\u56e0\u3002",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 1 * * 1",
+        "display": "15 1 * * 1"
+      },
+      "schedule_display": "15 1 * * 1",
       "repeat": {
         "times": null,
         "completed": 0
@@ -116,8 +155,47 @@
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
-      "created_at": "2026-04-26T06:40:21.253806+08:00",
-      "next_run_at": "2026-05-02T01:00:00+08:00",
+      "created_at": "2026-04-26T13:37:56.131252+08:00",
+      "next_run_at": "2026-04-27T01:15:00+08:00",
+      "last_run_at": null,
+      "last_status": null,
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "whatsapp",
+        "chat_id": "142756475314418@lid",
+        "chat_name": "John Chen",
+        "thread_id": null
+      },
+      "enabled_toolsets": null
+    },
+    {
+      "id": "9d142ea0ea77",
+      "name": "\u6bcf\u9031\u66f4\u65b0 Hermes Skills",
+      "prompt": "\u57f7\u884c\u4ee5\u4e0b\u6307\u4ee4\u66f4\u65b0 Hermes Skills\uff1a\n\n1. hermes skills check \u2014 \u6aa2\u67e5\u6709\u54ea\u4e9b skills \u9700\u8981\u66f4\u65b0\n2. hermes skills update \u2014 \u66f4\u65b0\u6240\u6709\u904e\u6642\u7684 skills\n3. \u5831\u544a\u66f4\u65b0\u7d50\u679c\uff08\u54ea\u4e9b\u66f4\u65b0\u4e86\u3001\u54ea\u4e9b\u8df3\u904e\uff09\n\n\u5982\u679c\u6c92\u6709\u4efb\u4f55\u66f4\u65b0\uff0c\u5831\u544a\u300c\u6240\u6709 skills \u5df2\u662f\u6700\u65b0\u7248\u300d\u3002",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 1 * * 1",
+        "display": "30 1 * * 1"
+      },
+      "schedule_display": "30 1 * * 1",
+      "repeat": {
+        "times": null,
+        "completed": 0
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-04-26T13:38:03.665695+08:00",
+      "next_run_at": "2026-04-27T01:30:00+08:00",
       "last_run_at": null,
       "last_status": null,
       "last_error": null,
@@ -132,5 +210,5 @@
       "enabled_toolsets": null
     }
   ],
-  "updated_at": "2026-04-26T06:41:10.474970+08:00"
+  "updated_at": "2026-04-26T13:40:51.923098+08:00"
 }
