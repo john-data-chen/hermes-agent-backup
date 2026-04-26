@@ -9,5 +9,6 @@ I won't make it auto push new backup to the public repo until I double-check and
 This repo includes:
 
 - ⁠cron/ — Cron jobs
+- memories/ - Memories about user
 - skills/ — Skills for agents
 - ⁠config.yaml — Hermes Agent config. I manually verified: no API keys, tokens, or secrets are included.
