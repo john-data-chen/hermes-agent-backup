@@ -69,16 +69,16 @@ cd ~/projects/<project-name>
 pnpm update --latest
 ```
 
-**IMPORTANT: Hold `@types/node` at `^24.12.3`** — do not update it even if a newer version exists. If `pnpm update --latest` bumps it, immediately revert:
+**IMPORTANT: Hold `@types/node` at `^24.12.4`** — do not update it even if a newer version exists. If `pnpm update --latest` bumps it, immediately revert:
 ```bash
-pnpm add @types/node@^24.12.3
+pnpm add @types/node@^24.12.4
 ```
 
 Or for npm:
 ```bash
 npm update --save
 # Then hold types/node:
-npm install @types/node@^24.12.3 --save-exact
+npm install @types/node@^24.12.4 --save-exact
 ```
 
 ### 5. Verify Changes
@@ -128,15 +128,21 @@ Or via GitHub web UI if token unavailable.
 
 7. **Turborepo pnpm update --latest scope** — `pnpm update --latest` without filters only updates the root. Use `--filter <pkg>` to update specific workspace packages. Always verify the intended packages were actually updated.
 
+8. **Lockfile mismatch on monorepo** — When pnpm throws `ERR_PNPM_LOCKFILE_CONFIG_MISMATCH` during `pnpm install`, run `pnpm install --no-frozen-lockfile` instead. This rebuilds the lockfile to match the current catalog configuration.
+
 ## Verification Checklist
 
 - [ ] `git checkout main && git pull` completed before branch creation
 - [ ] Branch name follows `feat/john/update-packages-YYYYMMDD` format
 - [ ] `.env` / `.env.test` created if missing and AUTH_SECRET is placeholder
 - [ ] `pnpm update --latest` ran and package.json changed (turborepo: `CI=true pnpm install` first)
-- [ ] `@types/node` held at `^24.12.3` — not updated
+- [ ] `@types/node` held at `^24.12.4` — not updated
 - [ ] `pnpm lint` passed (warnings acceptable)
 - [ ] `pnpm test` passed (turborepo: use `CI=true`)
 - [ ] `pnpm build` passed
 - [ ] Changes committed and pushed
 - [ ] PR created or link provided for manual PR creation
+
+## Project-Specific Notes
+
+For turborepo projects, see `references/turborepo-update.md` for CI flags, lockfile fixes, and version pin rules.
