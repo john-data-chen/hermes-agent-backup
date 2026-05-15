@@ -642,16 +642,98 @@ the `cronjob` tool, the `hermes cron` CLI (`list`, `add`, `edit`,
 
 - **Schedules:** duration (`"30m"`, `"2h"`), "every" phrase
   (`"every monday 9am"`), 5-field cron (`"0 9 * * *"`), or ISO timestamp.
+  Common cron fields: minute hour day-of-month month day-of-week.
+  Day-of-week: 0=Sun, 1=Mon, ..., 6=Sat. Range syntax: `1-5` for Mon-Fri.
 - **Per-job knobs:** `skills`, `model`/`provider` override, `script`
   (pre-run data collection; `no_agent=True` makes the script the whole
   job), `context_from` (chain job A's output into job B), `workdir`
   (run in a specific dir with its `AGENTS.md` / `CLAUDE.md` loaded),
-  multi-platform delivery.
+  multi-platform delivery, `enabled_toolsets` (restrict tools to reduce
+  token overhead — e.g. `["terminal", "file"]` for a job that only runs
+  shell commands and writes files).
+- **Delivery modes:** `"origin"` (deliver to the conversation where the
+  job was created), `"local"` (save only, no delivery — good for
+  housekeeping jobs that the user doesn't need to see), `"all"` (fan
+  out to every connected channel).
 - **Invariants:** 3-minute hard interrupt per run, `.tick.lock` file
   prevents duplicate ticks across processes, cron sessions pass
   `skip_memory=True` by default, and cron deliveries are framed with a
   header/footer instead of being mirrored into the target gateway
   session (keeps role alternation intact).
+
+#### Cron Job Patterns & Best Practices
+
+**Pattern 1: Conditional chaining inside a single job (recommended)**
+
+When you need to run task B only if task A had meaningful results,
+put both tasks in one agent-driven prompt. The agent reads A's output,
+decides whether to run B, and reports the result. This is cleaner than
+managing two separate jobs with dependencies.
+
+Example prompt for a "update then back up if needed" job:
+```
+1. Run `hermes update` (via terminal)
+2. Check the output: does it say "Updated to vX.Y.Z" or similar?
+   If "already up to date" → skip backup, report "No update, skipped backup"
+   If actual update found → run backup command, report results
+3. Report concisely what happened
+```
+
+Set `enabled_toolsets: ["terminal", "file"]` for such jobs — no need
+for browser, web, or vision tools.
+
+**Pattern 2: Script-driven jobs (no_agent=true)**
+
+For deterministic workflows with zero LLM cost, write a bash/Python
+script, set `script=<path>`, and `no_agent=true`. The script runs on
+schedule and its stdout is delivered verbatim. Design the script to
+produce EMPTY stdout (silent delivery) when there's nothing to report,
+and non-empty stdout when there is news. Example: a disk-usage watchdog
+that only speaks when a threshold is exceeded.
+
+**Pattern 3: Chaining jobs with context_from**
+
+Keep tasks in separate jobs for independent scheduling, but use
+`context_from=[job_id_A]` on job B. At each tick, B receives A's most
+recent completed output injected into its prompt. B can then read it
+and decide what to do. Good when the two tasks have different schedules
+or need independent pause/resume lifecycle. Note: `context_from`
+injects the *most recently completed* output — it does NOT wait for A
+to finish in the same tick.
+
+**Pattern 4: Pausing vs removing**
+
+When you want to temporarily stop a job (e.g. "don't update skills
+anymore"), use `action='pause'` — keeps the job definition intact,
+can be resumed with `action='resume'`. Only use `action='remove'`
+when you're sure the job will never be needed again.
+
+**Pitfall: `zip -r` with an existing archive does NOT remove stale entries.**
+When a cron job's backup script uses `zip -r output.zip <file_list>`, and
+`output.zip` already exists from a prior run, zip *adds/updates* the listed
+files but **leaves all other files intact** — including files that were in a
+previous version of the archive but are no longer in the file list. This
+means excluded directories (like old `.hermes/cron/output/` logs) persist
+silently across runs.
+
+**Fix:** always `rm -f` the archive before rebuilding:
+```bash
+rm -f ~/hermes_backup.zip && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/memories .hermes/cron/jobs.json 2>/dev/null || true
+```
+This guarantees a clean archive each time. Without the `rm -f`, zip's
+incremental-update behavior silently retains excluded paths.
+
+**Tips for cron prompts:**
+- Write self-contained prompts — cron jobs start in a fresh session
+  with no conversation history
+- Set `deliver: "origin"` so the result arrives in the platform where
+  the job was created; use `"local"` for invisible housekeeping jobs
+  the user doesn't need to see
+- When updating the schedule, keep time fields. `"35 8 * * 1"` means
+  "at 08:35 every Monday" — the last field changed from `3` (Wed) to
+  `1` (Mon)
+- Use `name` to give jobs human-readable descriptions that show up in
+  `cronjob(list)` output
 
 User docs: https://hermes-agent.nousresearch.com/docs/user-guide/features/cron
 

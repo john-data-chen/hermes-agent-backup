@@ -1,0 +1,1 @@
+Communicates in Traditional Chinese (zh-TW). Prefers backup files and deliverables sent directly via WhatsApp using the MEDIA: protocol.

@@ -1,1 +1,3 @@
 Critical constraint: @types/node must ALWAYS be pinned to ^24.12.4. This has caused issues twice — once in next-dnd-starter-kit package.json and once in turborepo-starter-kit pnpm-workspace.yaml catalog. The npm-package-update-workflow skill and cron job prompts now include this hold rule, but verify manually if jobs run to completion.
+§
+Hermes config backup content: .hermes/skills, .hermes/config.yaml, .hermes/memories, .hermes/cron/jobs.json. Exclude: .hermes/cron/output/ (historical run logs). Use rm -f before zip to avoid stale entries.
