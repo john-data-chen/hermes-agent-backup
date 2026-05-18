@@ -130,6 +130,8 @@ Or via GitHub web UI if token unavailable.
 
 8. **Lockfile mismatch on monorepo** — When pnpm throws `ERR_PNPM_LOCKFILE_CONFIG_MISMATCH` during `pnpm install`, run `pnpm install --no-frozen-lockfile` instead. This rebuilds the lockfile to match the current catalog configuration.
 
+9. **Cron prompt version drift** — The `@types/node` hold version is duplicated in THREE places: (1) this skill, (2) cron job `next-dnd-starter-kit` prompt, (3) cron job `turborepo-starter-kit` prompt. The cron jobs store their prompts inline (not referencing the skill), so updating this skill alone does NOT fix cron runs. When bumping the hold version, you MUST update all three. Also update `references/turborepo-update.md` which has a stale copy of the version in its Version Pin section. To update cron prompts, use `cronjob(action='update', job_id='...', prompt='...')` with the corrected version.
+
 ## Verification Checklist
 
 - [ ] `git checkout main && git pull` completed before branch creation

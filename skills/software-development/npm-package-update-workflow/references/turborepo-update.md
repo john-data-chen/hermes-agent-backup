@@ -25,15 +25,17 @@ git add pnpm-lock.yaml && git commit -m "chore: update pnpm lockfile"
 ```
 
 ## Version Pin — `@types/node`
-Both projects hold `@types/node` at `^24.12.3`:
-- `next-dnd-starter-kit/package.json`: `"@types/node": "^24.12.3"`
-- `turborepo-starter-kit/pnpm-workspace.yaml` catalog: `"@types/node": "^24.12.3"`
+Both projects hold `@types/node` at `^24.12.4`:
+- `next-dnd-starter-kit/package.json`: `"@types/node": "^24.12.4"`
+- `turborepo-starter-kit/pnpm-workspace.yaml` catalog: `"@types/node": "^24.12.4"`
 
 If `pnpm update --latest` bumps it, revert immediately:
 ```bash
-pnpm add @types/node@^24.12.3
+pnpm add @types/node@^24.12.4
 ```
 For turborepo, also update `pnpm-workspace.yaml` catalog entry.
+
+**CRITICAL: The version is also duplicated in the cron job prompts.** When bumping the hold version, update this file + SKILL.md step 4 + both cron job prompts. The cron prompts store the version inline and are not auto-synced from the skill.
 
 ## pnpm Store Error
 `ERR_PNPM_UNEXPECTED_STORE` indicates node_modules is linked from a different store location. Run:

@@ -1,7 +1,7 @@
 model:
-  default: deepseek-v4-flash
-  provider: deepseek
-  base_url: https://api.deepseek.com/v1
+  default: "deepseek-v4-flash"
+  provider: "deepseek"
+  base_url: "https://api.deepseek.com/v1"
 providers: {}
 fallback_providers: []
 credential_pool_strategies: {}
