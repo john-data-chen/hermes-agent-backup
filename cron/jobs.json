@@ -93,7 +93,7 @@
     {
       "id": "06bd648730a3",
       "name": "\u66f4\u65b0 Hermes Agent + \u689d\u4ef6\u5099\u4efd",
-      "prompt": "\u57f7\u884c Hermes Agent \u66f4\u65b0\u53ca\u689d\u4ef6\u5099\u4efd\uff1a\n\n1. \u57f7\u884c `hermes update` \u66f4\u65b0 Hermes Agent \u672c\u9ad4\uff08\u76f4\u63a5\u5728 terminal \u57f7\u884c\uff09\n2. \u5224\u65b7\u662f\u5426\u771f\u7684\u6709\u66f4\u65b0\uff1a\n   - \u5982\u679c\u8f38\u51fa\u5305\u542b \"Updated\"\u3001\"upgraded\"\u3001\"downloaded\" \u7b49\u8868\u793a\u6709\u5be6\u969b\u8b8a\u66f4\u7684\u95dc\u9375\u5b57 \u2192 \u6709\u66f4\u65b0\n   - \u5982\u679c\u8f38\u51fa\u5305\u542b \"Already up to date\"\u3001\"Nothing to update\" \u6216\u985e\u4f3c\u8a0a\u606f \u2192 \u7121\u66f4\u65b0\n3. \u82e5\u771f\u7684\u6709\u66f4\u65b0\uff1a\n   a. \u5148\u522a\u9664\u820a\u5099\u4efd\u6a94\u518d\u57f7\u884c\u5099\u4efd\uff08\u6392\u9664 .lock \u5783\u573e\u6a94\uff09\uff1a`rm -f ~/hermes_backup.zip && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/memories .hermes/cron/jobs.json -x \"*.lock\" 2>/dev/null || true`\n   b. \u78ba\u8a8d\u5099\u4efd\u6a94\uff1a`ls -lh ~/hermes_backup.zip`\n   c. \u56de\u5831\u66f4\u65b0\u7d50\u679c + \u5099\u4efd\u7d50\u679c\uff0c\u4e26\u900f\u904e MEDIA:~/hermes_backup.zip \u50b3\u9001\u5099\u4efd\u6a94\u7d66\u7528\u6236\n4. \u82e5\u7121\u66f4\u65b0\uff1a\n   a. \u76f4\u63a5\u56de\u5831\u300c\u7121\u65b0\u7248\u672c\uff0c\u8df3\u904e\u5099\u4efd\u300d\n\n\u6ce8\u610f\uff1a\u9019\u662f\u4e00\u500b cron job\uff0c\u4f60\u7684\u6700\u7d42\u56de\u8986\u6703\u81ea\u52d5\u50b3\u9001\u7d66\u7528\u6236\uff0c\u4e0d\u9700\u8981\u4f7f\u7528 send_message\u3002",
+      "prompt": "\u57f7\u884c Hermes Agent \u66f4\u65b0\u53ca\u689d\u4ef6\u5099\u4efd\uff1a\n\n1. \u57f7\u884c `hermes update` \u66f4\u65b0 Hermes Agent \u672c\u9ad4\uff08\u76f4\u63a5\u5728 terminal \u57f7\u884c\uff09\n2. \u5224\u65b7\u662f\u5426\u771f\u7684\u6709\u66f4\u65b0\uff1a\n   - \u5982\u679c\u8f38\u51fa\u5305\u542b \"Updated\"\u3001\"upgraded\"\u3001\"downloaded\" \u7b49\u8868\u793a\u6709\u5be6\u969b\u8b8a\u66f4\u7684\u95dc\u9375\u5b57 \u2192 \u6709\u66f4\u65b0\n   - \u5982\u679c\u8f38\u51fa\u5305\u542b \"Already up to date\"\u3001\"Nothing to update\" \u6216\u985e\u4f3c\u8a0a\u606f \u2192 \u7121\u66f4\u65b0\n3. \u82e5\u771f\u7684\u6709\u66f4\u65b0\uff1a\n   a. \u5148\u522a\u9664\u820a\u5099\u4efd\u6a94\u518d\u57f7\u884c\u5099\u4efd\uff08\u6392\u9664 .lock \u5783\u573e\u6a94\uff09\uff1a`rm -f ~/hermes_backup.zip && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/memories .hermes/cron/jobs.json -x \"*.lock\" 2>/dev/null || true`\n   b. \u78ba\u8a8d\u5099\u4efd\u6a94\uff1a`ls -lh ~/hermes_backup.zip`\n   c. \u56de\u5831\u66f4\u65b0\u7d50\u679c + \u5099\u4efd\u7d50\u679c\uff0c\u4e26\u900f\u904e MEDIA:/Users/johnchen/hermes_backup.zip \u50b3\u9001\u5099\u4efd\u6a94\u7d66\u7528\u6236\n4. \u82e5\u7121\u66f4\u65b0\uff1a\n   a. \u76f4\u63a5\u56de\u5831\u300c\u7121\u65b0\u7248\u672c\uff0c\u8df3\u904e\u5099\u4efd\u300d\n\n\u6ce8\u610f\uff1a\u9019\u662f\u4e00\u500b cron job\uff0c\u4f60\u7684\u6700\u7d42\u56de\u8986\u6703\u81ea\u52d5\u50b3\u9001\u7d66\u7528\u6236\uff0c\u4e0d\u9700\u8981\u4f7f\u7528 send_message\u3002",
       "skills": [],
       "skill": null,
       "model": null,
@@ -151,15 +151,15 @@
       "schedule_display": "0 6 * * 1-5",
       "repeat": {
         "times": null,
-        "completed": 11
+        "completed": 13
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-04-28T06:33:47.631626+08:00",
-      "next_run_at": "2026-05-19T06:00:00+08:00",
-      "last_run_at": "2026-05-18T06:01:00.696375+08:00",
+      "next_run_at": "2026-05-21T06:00:00+08:00",
+      "last_run_at": "2026-05-20T06:00:43.919477+08:00",
       "last_status": "ok",
       "last_error": null,
       "last_delivery_error": null,
@@ -192,15 +192,15 @@
       "schedule_display": "15 6 * * 1-5",
       "repeat": {
         "times": null,
-        "completed": 10
+        "completed": 12
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-04-28T06:37:03.117880+08:00",
-      "next_run_at": "2026-05-19T06:15:00+08:00",
-      "last_run_at": "2026-05-18T06:15:31.771800+08:00",
+      "next_run_at": "2026-05-21T06:15:00+08:00",
+      "last_run_at": "2026-05-20T06:16:05.512302+08:00",
       "last_status": "ok",
       "last_error": null,
       "last_delivery_error": null,
@@ -217,7 +217,7 @@
     {
       "id": "1c1ff9a8a3fe",
       "name": "\u5099\u4efd Hermes\uff08\u88ab\u52d5\u89f8\u767c\uff09",
-      "prompt": "\u57f7\u884c Hermes \u5099\u4efd\u6d41\u7a0b\uff1a\n\n1. \u5148\u522a\u9664\u820a\u5099\u4efd\u6a94\uff0c\u518d\u57f7\u884c\u5099\u4efd\uff08\u6392\u9664 .lock \u5783\u573e\u6a94\uff09\uff1a\n   rm -f ~/hermes_backup.zip && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/memories .hermes/cron/jobs.json -x \"*.lock\" 2>/dev/null || true\n\n2. \u78ba\u8a8d\u5099\u4efd\u6a94\u5927\u5c0f\uff1a\n   ls -lh ~/hermes_backup.zip\n\n3. \u900f\u904e MEDIA:~/hermes_backup.zip \u50b3\u9001\u5099\u4efd\u6a94\u7d66\u7528\u6236\n\n\u6ce8\u610f\uff1a\u9019\u662f\u4e00\u500b cron job\uff0c\u4f60\u7684\u6700\u7d42\u56de\u8986\u6703\u81ea\u52d5\u50b3\u9001\u7d66\u7528\u6236\u3002\u5982\u679c\u8981\u50b3\u9001\u5099\u4efd\u6a94\uff0c\u5728\u56de\u8986\u4e2d\u5305\u542b MEDIA:~/hermes_backup.zip \u5373\u53ef\u3002",
+      "prompt": "\u57f7\u884c Hermes \u5099\u4efd\u6d41\u7a0b\uff1a\n\n1. \u5148\u522a\u9664\u820a\u5099\u4efd\u6a94\uff0c\u518d\u57f7\u884c\u5099\u4efd\uff08\u6392\u9664 .lock \u5783\u573e\u6a94\uff09\uff1a\n   rm -f ~/hermes_backup.zip && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/memories .hermes/cron/jobs.json -x \"*.lock\" 2>/dev/null || true\n\n2. \u78ba\u8a8d\u5099\u4efd\u6a94\u5927\u5c0f\uff1a\n   ls -lh ~/hermes_backup.zip\n\n3. \u900f\u904e MEDIA:/Users/johnchen/hermes_backup.zip \u50b3\u9001\u5099\u4efd\u6a94\u7d66\u7528\u6236\n\n\u6ce8\u610f\uff1a\u9019\u662f\u4e00\u500b cron job\uff0c\u4f60\u7684\u6700\u7d42\u56de\u8986\u6703\u81ea\u52d5\u50b3\u9001\u7d66\u7528\u6236\u3002\u5982\u679c\u8981\u50b3\u9001\u5099\u4efd\u6a94\uff0c\u5728\u56de\u8986\u4e2d\u5305\u542b MEDIA:/Users/johnchen/hermes_backup.zip \u5373\u53ef\u3002",
       "skills": [],
       "skill": null,
       "model": null,
@@ -236,15 +236,15 @@
       "schedule_display": "30 6 * * 3",
       "repeat": {
         "times": null,
-        "completed": 5
+        "completed": 6
       },
       "enabled": true,
       "state": "scheduled",
       "paused_at": null,
       "paused_reason": null,
       "created_at": "2026-04-30T15:35:17.447377+08:00",
-      "next_run_at": "2026-05-20T06:30:00+08:00",
-      "last_run_at": "2026-05-15T14:30:36.804969+08:00",
+      "next_run_at": "2026-05-27T06:30:00+08:00",
+      "last_run_at": "2026-05-20T06:30:51.996383+08:00",
       "last_status": "ok",
       "last_error": null,
       "last_delivery_error": null,
@@ -259,5 +259,5 @@
       "workdir": null
     }
   ],
-  "updated_at": "2026-05-18T11:54:15.603757+08:00"
+  "updated_at": "2026-05-20T06:52:54.395639+08:00"
 }
