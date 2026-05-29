@@ -1,3 +1,5 @@
 Critical constraint: @types/node must ALWAYS be pinned to ^24.12.4. This has caused issues three times — twice in package.json/pnpm-workspace.yaml catalog and once because cron job prompts hardcode the version independently from the skill. When bumping the @types/node hold version, you must update THREE places: (1) the npm-package-update-workflow SKILL.md, (2) cron job next-dnd-starter-kit prompt, (3) cron job turborepo-starter-kit prompt. The cron jobs store their version inline, so the skill update alone doesn't fix them.
 §
 Hermes config backup content: .hermes/skills, .hermes/config.yaml, .hermes/memories, .hermes/cron/jobs.json. Exclude: .hermes/cron/output/ (historical run logs). Use rm -f before zip to avoid stale entries.
+§
+npm approve-scripts 對全域套件無效（不支援 -g flag）。正確做法：在 npm prefix -g 目錄下執行 npm init -y 建立 package.json，加上 symlink 指向 lib/node_modules，然後執行 npm approve-scripts <pkg>。或用 npx 代替。之後記得清理 symlink。

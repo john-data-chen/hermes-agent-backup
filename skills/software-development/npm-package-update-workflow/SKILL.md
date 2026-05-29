@@ -21,6 +21,7 @@ Automated workflow for keeping npm packages up-to-date across projects. Checks f
 - Scheduled cron job updating packages in a project repository
 - Manual triggered update for a specific project
 - Batch updates across multiple monorepo packages
+- **Global npm package updates** (`npm update -g`) — especially handling postinstall scripts for global packages (see `references/global-packages.md`)
 
 ## Workflow Steps
 
@@ -132,6 +133,8 @@ Or via GitHub web UI if token unavailable.
 
 9. **Cron prompt version drift** — The `@types/node` hold version is duplicated in THREE places: (1) this skill, (2) cron job `next-dnd-starter-kit` prompt, (3) cron job `turborepo-starter-kit` prompt. The cron jobs store their prompts inline (not referencing the skill), so updating this skill alone does NOT fix cron runs. When bumping the hold version, you MUST update all three. Also update `references/turborepo-update.md` which has a stale copy of the version in its Version Pin section. To update cron prompts, use `cronjob(action='update', job_id='...', prompt='...')` with the corrected version.
 
+10. **`npm approve-scripts` 對全域套件無效** — 如果全域 npm 套件（如 `opencode-ai`）的 postinstall 腳本需要核准，直接執行 `npm approve-scripts <pkg>` 會失敗，因為該 command 不支援 `-g` flag。見 `references/global-packages.md` 中的繞道方式。
+
 ## Verification Checklist
 
 - [ ] `git checkout main && git pull` completed before branch creation
@@ -147,4 +150,5 @@ Or via GitHub web UI if token unavailable.
 
 ## Project-Specific Notes
 
-For turborepo projects, see `references/turborepo-update.md` for CI flags, lockfile fixes, and version pin rules.
+- **Turborepo projects**: see `references/turborepo-update.md` for CI flags, lockfile fixes, and version pin rules.
+- **Global npm packages**: see `references/global-packages.md` for the `npm approve-scripts` workaround with global installs.

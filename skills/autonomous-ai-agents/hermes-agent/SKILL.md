@@ -723,6 +723,8 @@ rm -f ~/hermes_backup.zip && zip -r hermes_backup.zip .hermes/skills .hermes/con
 This guarantees a clean archive each time. Without the `rm -f`, zip's
 incremental-update behavior silently retains excluded paths.
 
+**Pitfall: `MEDIA:` paths must be absolute.** The delivery system does NOT expand tilde `~`. A cron job response that includes `MEDIA:~/hermes_backup.zip` will silently fail to send the file. Always use the full absolute path: `MEDIA:/Users/johnchen/hermes_backup.zip`. Check every cron job's prompt for `MEDIA:~` and replace with the absolute home path. See `references/cron-delivery-media-path.md` for examples.
+
 **Tips for cron prompts:**
 - Write self-contained prompts — cron jobs start in a fresh session
   with no conversation history
