@@ -1,9 +1,9 @@
 {
-  "last_report_path": "/Users/johnchen/.hermes/logs/curator/20260525-025910",
-  "last_run_at": "2026-05-25T02:59:10.175650+00:00",
-  "last_run_duration_seconds": 0.364812,
-  "last_run_summary": "auto: no changes; llm: skipped (no candidates)",
-  "last_run_summary_shown_at": "2026-05-25T02:59:10.175650+00:00",
+  "last_report_path": "/Users/johnchen/.hermes/logs/curator/20260608-091338",
+  "last_run_at": "2026-06-08T09:13:38.762004+00:00",
+  "last_run_duration_seconds": 317.807463,
+  "last_run_summary": "auto: no changes; llm: ## Structured summary (required)\n\n```yaml\nconsolidations:\n  - from: writing-plans\n    into: plan\n    reason: writing-plans content was a strict subset already included in plan v2.0.0's 'Writing the Plan Well' section\n  - from: hermes-agent-…\narchived 5 skill(s):\n  • hermes-agent-skill-authoring → hermes-agent\n  • kanban-orchestrator — pruned (stale)\n  • kanban-worker — pruned (stale)\n  • node-inspect-debugger — pruned (stale)\n  • python-debugpy — pruned (stale)\nfull report: hermes curator status\nkeep an umbrella stable: hermes curator pin hermes-agent",
+  "last_run_summary_shown_at": "2026-06-08T09:13:38.762004+00:00",
   "paused": false,
-  "run_count": 2
+  "run_count": 4
 }
