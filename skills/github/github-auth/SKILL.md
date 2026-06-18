@@ -220,22 +220,12 @@ if command -v gh &>/dev/null && gh auth status &>/dev/null; then
   echo "AUTH_METHOD=gh"
 elif [ -n "$GITHUB_TOKEN" ]; then
   echo "AUTH_METHOD=curl"
-elif [ -f ~/.hermes/.env ] && grep -q "^GITHUB_TOKEN=" ~/.hermes/.env; then
-  export GITHUB_TOKEN=$(grep "^GITHUB_TOKEN=" ~/.hermes/.env | head -1 | cut -d= -f2 | tr -d '\\n\\r')
+elif _hermes_env="${HERMES_HOME:-$HOME/.hermes}/.env"; [ -f "$_hermes_env" ] && grep -q "^GITHUB_TOKEN=" "$_hermes_env"; then
+  export GITHUB_TOKEN=$(grep "^GITHUB_TOKEN=" "$_hermes_env" | head -1 | cut -d= -f2 | tr -d '\n\r')
   echo "AUTH_METHOD=curl"
 elif grep -q "github.com" ~/.git-credentials 2>/dev/null; then
-  export GITHUB_TOKEN=$(grep "github.com" ~/.git-credentials | head -1 | sed 's|https://[^:]*:\\([^@]*\\)@.*|\\1|')
+  export GITHUB_TOKEN=$(grep "github.com" ~/.git-credentials | head -1 | sed 's|https://[^:]*:\([^@]*\)@.*|\1|')
   echo "AUTH_METHOD=curl"
-elif command -v git credential-osxkeychain &>/dev/null; then
-  # macOS keychain — extract from osxkeychain helper
-  GITHUB_TOKEN_TMP=$(printf 'protocol=https\nhost=github.com\n' | git credential-osxkeychain get 2>/dev/null | grep "^password=" | head -1 | cut -d= -f2-)
-  if [ -n "$GITHUB_TOKEN_TMP" ]; then
-    export GITHUB_TOKEN="$GITHUB_TOKEN_TMP"
-    echo "AUTH_METHOD=curl (osxkeychain)"
-  else
-    echo "AUTH_METHOD=none"
-    echo "Need to set up authentication first"
-  fi
 else
   echo "AUTH_METHOD=none"
   echo "Need to set up authentication first"

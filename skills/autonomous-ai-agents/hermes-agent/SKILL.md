@@ -35,7 +35,7 @@ People use Hermes for software development, research, system administration, dat
 
 ```bash
 # Install
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 
 # Interactive chat (default)
 hermes
@@ -100,8 +100,10 @@ hermes config path          Print config.yaml path
 hermes config env-path      Print .env path
 hermes config check         Check for missing/outdated config
 hermes config migrate       Update config with new options
-hermes login [--provider P] OAuth login (nous, openai-codex)
-hermes logout               Clear stored auth
+hermes auth                 Interactive credential manager
+hermes auth add PROVIDER    Add OAuth or API-key credential (e.g. nous, openai-codex, qwen-oauth)
+hermes auth list            List stored credentials
+hermes auth remove PROVIDER Remove a stored credential
 hermes doctor [--fix]       Check dependencies and config
 hermes status [--all]       Show component status
 ```
@@ -137,6 +139,10 @@ hermes mcp list             List configured servers
 hermes mcp test NAME        Test connection
 hermes mcp configure NAME   Toggle tool selection
 ```
+
+How the built-in MCP client connects servers (stdio/HTTP), auto-discovers
+their tools, and exposes them as first-class tools, plus catalog install
+(`hermes mcp install <name>`): `skill_view(name="hermes-agent", file_path="references/native-mcp.md")`.
 
 ### Gateway (Messaging Platforms)
 
@@ -185,6 +191,9 @@ hermes webhook list         List subscriptions
 hermes webhook remove NAME  Remove a subscription
 hermes webhook test NAME    Send a test POST
 ```
+
+Full setup, route config, payload templating, and event-driven agent-run
+patterns: `skill_view(name="hermes-agent", file_path="references/webhooks.md")`.
 
 ### Profiles
 
@@ -334,9 +343,10 @@ The registry of record is `hermes_cli/commands.py` — every consumer
 
 ```
 ~/.hermes/config.yaml       Main configuration
-~/.hermes/.env              API keys and secrets
+~/.hermes/.env              API keys and secrets (under $HERMES_HOME if set)
 $HERMES_HOME/skills/        Installed skills
-~/.hermes/sessions/         Session transcripts
+~/.hermes/sessions/         Gateway routing index, request dumps, *.jsonl transcripts (and optional per-session JSON snapshots when sessions.write_json_snapshots: true)
+~/.hermes/state.db          Canonical session store (SQLite + FTS5)
 ~/.hermes/logs/             Gateway and error logs
 ~/.hermes/auth.json         OAuth tokens and credential pools
 ~/.hermes/hermes-agent/     Source code (if git-installed)
@@ -386,10 +396,9 @@ Full config reference: https://hermes-agent.nousresearch.com/docs/user-guide/con
 | Alibaba / DashScope | API key | `DASHSCOPE_API_KEY` |
 | Xiaomi MiMo | API key | `XIAOMI_API_KEY` |
 | Kilo Code | API key | `KILOCODE_API_KEY` |
-| AI Gateway (Vercel) | API key | `AI_GATEWAY_API_KEY` |
 | OpenCode Zen | API key | `OPENCODE_ZEN_API_KEY` |
 | OpenCode Go | API key | `OPENCODE_GO_API_KEY` |
-| Qwen OAuth | OAuth | `hermes login --provider qwen-oauth` |
+| Qwen OAuth | OAuth | `hermes auth add qwen-oauth` |
 | Custom endpoint | Config | `model.base_url` + `model.api_key` in config.yaml |
 | GitHub Copilot ACP | External | `COPILOT_CLI_PATH` or Copilot CLI |
 
@@ -444,15 +453,15 @@ Common "why is Hermes doing X to my output / tool calls / commands?" toggles —
 
 ### Secret redaction in tool output
 
-Secret redaction is **off by default** — tool output (terminal stdout, `read_file`, web content, subagent summaries, etc.) passes through unmodified. If the user wants Hermes to auto-mask strings that look like API keys, tokens, and secrets before they enter the conversation context and logs:
+Secret redaction is **on by default** — tool output (terminal stdout, `read_file`, web content, subagent summaries, etc.) is scanned for strings that look like API keys, tokens, and secrets before it enters the conversation context and logs. Leave it enabled for normal use:
 
 ```bash
-hermes config set security.redact_secrets true       # enable globally
+hermes config set security.redact_secrets true       # keep enabled globally
 ```
 
-**Restart required.** `security.redact_secrets` is snapshotted at import time — toggling it mid-session (e.g. via `export HERMES_REDACT_SECRETS=true` from a tool call) will NOT take effect for the running process. Tell the user to run `hermes config set security.redact_secrets true` in a terminal, then start a new session. This is deliberate — it prevents an LLM from flipping the toggle on itself mid-task.
+**Restart required.** `security.redact_secrets` is snapshotted at import time — toggling it mid-session (e.g. via `export HERMES_REDACT_SECRETS=false` from a tool call) will NOT take effect for the running process. Tell the user to change it in config from a terminal, then start a new session. This is deliberate — it prevents an LLM from flipping the toggle on itself mid-task.
 
-Disable again with:
+Disable only when you deliberately need raw credential-like strings for debugging or redactor development:
 ```bash
 hermes config set security.redact_secrets false
 ```
@@ -642,100 +651,16 @@ the `cronjob` tool, the `hermes cron` CLI (`list`, `add`, `edit`,
 
 - **Schedules:** duration (`"30m"`, `"2h"`), "every" phrase
   (`"every monday 9am"`), 5-field cron (`"0 9 * * *"`), or ISO timestamp.
-  Common cron fields: minute hour day-of-month month day-of-week.
-  Day-of-week: 0=Sun, 1=Mon, ..., 6=Sat. Range syntax: `1-5` for Mon-Fri.
 - **Per-job knobs:** `skills`, `model`/`provider` override, `script`
   (pre-run data collection; `no_agent=True` makes the script the whole
   job), `context_from` (chain job A's output into job B), `workdir`
   (run in a specific dir with its `AGENTS.md` / `CLAUDE.md` loaded),
-  multi-platform delivery, `enabled_toolsets` (restrict tools to reduce
-  token overhead — e.g. `["terminal", "file"]` for a job that only runs
-  shell commands and writes files).
-- **Delivery modes:** `"origin"` (deliver to the conversation where the
-  job was created), `"local"` (save only, no delivery — good for
-  housekeeping jobs that the user doesn't need to see), `"all"` (fan
-  out to every connected channel).
+  multi-platform delivery.
 - **Invariants:** 3-minute hard interrupt per run, `.tick.lock` file
   prevents duplicate ticks across processes, cron sessions pass
   `skip_memory=True` by default, and cron deliveries are framed with a
   header/footer instead of being mirrored into the target gateway
   session (keeps role alternation intact).
-
-#### Cron Job Patterns & Best Practices
-
-**Pattern 1: Conditional chaining inside a single job (recommended)**
-
-When you need to run task B only if task A had meaningful results,
-put both tasks in one agent-driven prompt. The agent reads A's output,
-decides whether to run B, and reports the result. This is cleaner than
-managing two separate jobs with dependencies.
-
-Example prompt for a "update then back up if needed" job:
-```
-1. Run `hermes update` (via terminal)
-2. Check the output: does it say "Updated to vX.Y.Z" or similar?
-   If "already up to date" → skip backup, report "No update, skipped backup"
-   If actual update found → run backup command, report results
-3. Report concisely what happened
-```
-
-Set `enabled_toolsets: ["terminal", "file"]` for such jobs — no need
-for browser, web, or vision tools.
-
-**Pattern 2: Script-driven jobs (no_agent=true)**
-
-For deterministic workflows with zero LLM cost, write a bash/Python
-script, set `script=<path>`, and `no_agent=true`. The script runs on
-schedule and its stdout is delivered verbatim. Design the script to
-produce EMPTY stdout (silent delivery) when there's nothing to report,
-and non-empty stdout when there is news. Example: a disk-usage watchdog
-that only speaks when a threshold is exceeded.
-
-**Pattern 3: Chaining jobs with context_from**
-
-Keep tasks in separate jobs for independent scheduling, but use
-`context_from=[job_id_A]` on job B. At each tick, B receives A's most
-recent completed output injected into its prompt. B can then read it
-and decide what to do. Good when the two tasks have different schedules
-or need independent pause/resume lifecycle. Note: `context_from`
-injects the *most recently completed* output — it does NOT wait for A
-to finish in the same tick.
-
-**Pattern 4: Pausing vs removing**
-
-When you want to temporarily stop a job (e.g. "don't update skills
-anymore"), use `action='pause'` — keeps the job definition intact,
-can be resumed with `action='resume'`. Only use `action='remove'`
-when you're sure the job will never be needed again.
-
-**Pitfall: `zip -r` with an existing archive does NOT remove stale entries.**
-When a cron job's backup script uses `zip -r output.zip <file_list>`, and
-`output.zip` already exists from a prior run, zip *adds/updates* the listed
-files but **leaves all other files intact** — including files that were in a
-previous version of the archive but are no longer in the file list. This
-means excluded directories (like old `.hermes/cron/output/` logs) persist
-silently across runs.
-
-**Fix:** always `rm -f` the archive before rebuilding:
-```bash
-rm -f ~/hermes_backup.zip && zip -r hermes_backup.zip .hermes/skills .hermes/config.yaml .hermes/memories .hermes/cron/jobs.json 2>/dev/null || true
-```
-This guarantees a clean archive each time. Without the `rm -f`, zip's
-incremental-update behavior silently retains excluded paths.
-
-**Pitfall: `MEDIA:` paths must be absolute.** The delivery system does NOT expand tilde `~`. A cron job response that includes `MEDIA:~/hermes_backup.zip` will silently fail to send the file. Always use the full absolute path: `MEDIA:/Users/johnchen/hermes_backup.zip`. Check every cron job's prompt for `MEDIA:~` and replace with the absolute home path. See `references/cron-delivery-media-path.md` for examples.
-
-**Tips for cron prompts:**
-- Write self-contained prompts — cron jobs start in a fresh session
-  with no conversation history
-- Set `deliver: "origin"` so the result arrives in the platform where
-  the job was created; use `"local"` for invisible housekeeping jobs
-  the user doesn't need to see
-- When updating the schedule, keep time fields. `"35 8 * * 1"` means
-  "at 08:35 every Monday" — the last field changed from `3` (Wed) to
-  `1` (Mon)
-- Use `name` to give jobs human-readable descriptions that show up in
-  `cronjob(list)` output
 
 User docs: https://hermes-agent.nousresearch.com/docs/user-guide/features/cron
 
@@ -764,19 +689,25 @@ User docs: https://hermes-agent.nousresearch.com/docs/user-guide/features/curato
 
 Durable SQLite board for multi-profile / multi-worker collaboration.
 Users drive it via `hermes kanban <verb>`; dispatcher-spawned workers
-see a focused `kanban_*` toolset gated by `HERMES_KANBAN_TASK` so the
-schema footprint is zero outside worker processes.
+see a focused `kanban_*` toolset gated by `HERMES_KANBAN_TASK`, and
+orchestrator profiles can opt into the broader `kanban` toolset. Normal
+sessions still have zero `kanban_*` schema footprint unless configured.
 
 - **CLI verbs (common):** `init`, `create`, `list` (alias `ls`),
   `show`, `assign`, `link`, `unlink`, `comment`, `complete`, `block`,
   `unblock`, `archive`, `tail`. Less common: `watch`, `stats`, `runs`,
   `log`, `dispatch`, `daemon`, `gc`.
-- **Worker toolset:** `kanban_show`, `kanban_complete`, `kanban_block`,
-  `kanban_heartbeat`, `kanban_comment`, `kanban_create`, `kanban_link`.
+- **Worker/orchestrator toolset:** `kanban_show`, `kanban_complete`,
+  `kanban_block`, `kanban_heartbeat`, `kanban_comment`, `kanban_create`,
+  `kanban_link`; profiles that explicitly enable the `kanban` toolset
+  outside a dispatcher-spawned task also get `kanban_list` and
+  `kanban_unblock` for board routing.
 - **Dispatcher** runs inside the gateway by default
   (`kanban.dispatch_in_gateway: true`) — reclaims stale claims,
   promotes ready tasks, atomically claims, spawns assigned profiles.
-  Auto-blocks a task after ~5 consecutive spawn failures.
+  Auto-blocks a task after `failure_limit` consecutive spawn failures
+  (default 2; configurable via `kanban.failure_limit` or per-task
+  `max_retries`).
 - **Isolation:** board is the hard boundary (workers get
   `HERMES_KANBAN_BOARD` pinned in env); tenant is a soft namespace
   within a board for workspace-path + memory-key isolation.
@@ -889,7 +820,7 @@ and logs — avoids shell-escaping backslashes in bash.
 
 ### Model/provider issues
 1. `hermes doctor` — check config and dependencies
-2. `hermes login` — re-authenticate OAuth providers
+2. `hermes auth` — re-authenticate OAuth providers (or `hermes auth add <provider>`)
 3. Check `.env` has the right API key
 4. **Copilot 403**: `gh auth login` tokens do NOT work for Copilot API. You must use the Copilot-specific OAuth device code flow via `hermes model` → GitHub Copilot.
 
@@ -945,7 +876,7 @@ hermes config set auxiliary.vision.model <model_name>
 | Env variables | `hermes config env-path` or [Env vars reference](https://hermes-agent.nousresearch.com/docs/reference/environment-variables) |
 | CLI commands | `hermes --help` or [CLI reference](https://hermes-agent.nousresearch.com/docs/reference/cli-commands) |
 | Gateway logs | `~/.hermes/logs/gateway.log` |
-| Session files | `~/.hermes/sessions/` or `hermes sessions browse` |
+| Session files | `hermes sessions browse` (reads state.db) |
 | Source code | `~/.hermes/hermes-agent/` |
 
 ---
@@ -977,7 +908,7 @@ hermes-agent/
 └── website/              # Docusaurus docs site
 ```
 
-Config: `~/.hermes/config.yaml` (settings), `~/.hermes/.env` (API keys).
+Config: `~/.hermes/config.yaml` (settings), `~/.hermes/.env` (API keys) — both under `$HERMES_HOME` when it is set.
 
 ### Adding a Tool (3 files)
 
@@ -1070,7 +1001,7 @@ See `tests/agent/test_prompt_builder.py::TestEnvironmentHints` for a worked exam
 Factual guidance about the host OS, user home, cwd, terminal backend, and shell (bash vs. PowerShell on Windows) is emitted from `agent/prompt_builder.py::build_environment_hints()`. This is also where the WSL hint and per-backend probe logic live. The convention:
 
 - **Local terminal backend** → emit host info (OS, `$HOME`, cwd) + Windows-specific notes (hostname ≠ username, `terminal` uses bash not PowerShell).
-- **Remote terminal backend** (anything in `_REMOTE_TERMINAL_BACKENDS`: `docker, singularity, modal, daytona, ssh, vercel_sandbox, managed_modal`) → **suppress** host info entirely and describe only the backend. A live `uname`/`whoami`/`pwd` probe runs inside the backend via `tools.environments.get_environment(...).execute(...)`, cached per process in `_BACKEND_PROBE_CACHE`, with a static fallback if the probe times out.
+- **Remote terminal backend** (anything in `_REMOTE_TERMINAL_BACKENDS`: `docker, singularity, modal, daytona, ssh, managed_modal`) → **suppress** host info entirely and describe only the backend. A live `uname`/`whoami`/`pwd` probe runs inside the backend via `tools.environments.get_environment(...).execute(...)`, cached per process in `_BACKEND_PROBE_CACHE`, with a static fallback if the probe times out.
 - **Key fact for prompt authoring:** when `TERMINAL_ENV != "local"`, *every* file tool (`read_file`, `write_file`, `patch`, `search_files`) runs inside the backend container, not on the host. The system prompt must never describe the host in that case — the agent can't touch it.
 
 Full design notes, the exact emitted strings, and testing pitfalls:

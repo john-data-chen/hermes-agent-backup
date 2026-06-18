@@ -48,8 +48,8 @@
       "metadata": {
         "backfilled_from": "optional-skills"
       },
-      "installed_at": "2026-06-07T22:35:25.513193+00:00",
-      "updated_at": "2026-06-07T22:35:25.513193+00:00"
+      "installed_at": "2026-06-18T00:21:04.804148+00:00",
+      "updated_at": "2026-06-18T00:21:04.804148+00:00"
     },
     "baoyu-comic": {
       "source": "official",
@@ -98,8 +98,8 @@
       "metadata": {
         "backfilled_from": "optional-skills"
       },
-      "installed_at": "2026-06-07T22:35:25.524435+00:00",
-      "updated_at": "2026-06-07T22:35:25.524435+00:00"
+      "installed_at": "2026-06-18T00:21:04.811285+00:00",
+      "updated_at": "2026-06-18T00:21:04.811285+00:00"
     },
     "creative-ideation": {
       "source": "official",
@@ -115,8 +115,8 @@
       "metadata": {
         "backfilled_from": "optional-skills"
       },
-      "installed_at": "2026-06-07T22:35:25.526266+00:00",
-      "updated_at": "2026-06-07T22:35:25.526266+00:00"
+      "installed_at": "2026-06-18T00:21:04.812861+00:00",
+      "updated_at": "2026-06-18T00:21:04.812861+00:00"
     },
     "pixel-art": {
       "source": "official",
@@ -137,8 +137,8 @@
       "metadata": {
         "backfilled_from": "optional-skills"
       },
-      "installed_at": "2026-06-07T22:35:25.527776+00:00",
-      "updated_at": "2026-06-07T22:35:25.527776+00:00"
+      "installed_at": "2026-06-18T00:21:04.814578+00:00",
+      "updated_at": "2026-06-18T00:21:04.814578+00:00"
     },
     "minecraft-modpack-server": {
       "source": "official",
@@ -153,8 +153,8 @@
       "metadata": {
         "backfilled_from": "optional-skills"
       },
-      "installed_at": "2026-06-07T22:35:25.528677+00:00",
-      "updated_at": "2026-06-07T22:35:25.528677+00:00"
+      "installed_at": "2026-06-18T00:21:04.815244+00:00",
+      "updated_at": "2026-06-18T00:21:04.815244+00:00"
     },
     "pokemon-player": {
       "source": "official",
@@ -169,8 +169,8 @@
       "metadata": {
         "backfilled_from": "optional-skills"
       },
-      "installed_at": "2026-06-07T22:35:25.529137+00:00",
-      "updated_at": "2026-06-07T22:35:25.529137+00:00"
+      "installed_at": "2026-06-18T00:21:04.815678+00:00",
+      "updated_at": "2026-06-18T00:21:04.815678+00:00"
     },
     "dspy": {
       "source": "official",
@@ -188,8 +188,8 @@
       "metadata": {
         "backfilled_from": "optional-skills"
       },
-      "installed_at": "2026-06-07T22:35:25.530903+00:00",
-      "updated_at": "2026-06-07T22:35:25.530903+00:00"
+      "installed_at": "2026-06-18T00:21:04.817335+00:00",
+      "updated_at": "2026-06-18T00:21:04.817335+00:00"
     }
   }
 }
