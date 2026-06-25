@@ -111,4 +111,5 @@ See `references/starter-kit-profiles.md` for per-repo details (where @types/node
 2. **Catalog changes**: In turborepo catalogs, a version change in `pnpm-workspace.yaml` counts as a real change. A format-only change (e.g. "beta" → pinned version hash) does not.
 3. **pnpm-lock.yaml after abort**: `git checkout main` leaves modified lockfile in working directory. Always `git restore pnpm-lock.yaml` after aborting.
 4. **Missing lint-staged**: If `git commit` triggers lint-staged that finds no staged files matching patterns, it still proceeds — this is normal.
-5. **`@typescript/native-preview`**: This package goes from `"beta"` to a specific pinned version. If that's the ONLY change, it's a format change, not a real update. Consider it zero-change.
+5. **`@typescript/native-preview`**: This package is pinned to `"beta"` in some catalogs — that's intentional. If `pnpm update --latest` changes it to a specific pinned version, revert it back to `"beta"` and treat the change as zero-change.
+6. **`head` truncation**: When inspecting diffs, never truncate with `head` — you'll miss real changes in root `package.json`. Always check the full diff.
