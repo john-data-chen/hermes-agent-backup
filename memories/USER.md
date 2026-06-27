@@ -1,5 +1,3 @@
-Communicates in Traditional Chinese (zh-TW). Prefers backup files and deliverables sent directly via WhatsApp using the MEDIA: protocol.
+User communicates in Chinese (Traditional/Simplified). Respond in Chinese when they write in Chinese.
 §
-Actively manages cron jobs — prefers unused jobs deleted, not paused. Cares about backup completeness: noticed caveman was missing from early morning backup because it ran before installation. Runs automated npm update cron jobs for multiple projects (next-dnd-starter-kit, turborepo-starter-kit). Uses Homebrew weekly update cron. Updates Hermes Agent weekly via cron with conditional backup.
-§
-預設使用 caveman skill — 每次對話都應先載入 caveman skill，除非任務明確需要完整輸出（如寫文件、code review、對外溝通等）。
+Load caveman skill on every new session by default.
