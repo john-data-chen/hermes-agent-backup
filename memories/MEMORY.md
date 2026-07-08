@@ -9,3 +9,5 @@ turborepo-starter-kit: apps/mobile uses Expo, must run `pnpm mobile:expo:upgrade
 Package upgrade: keep `"@typescript/native-preview": "beta"` as-is — do NOT upgrade it. Applies to all projects.
 §
 Hermes backup: include only config.yaml, memories/, skills/, cron/jobs.json. Exclude .env, auth.json, state.db, sessions/, *.lock, logs, caches. Check for info leakage before compressing. Use zip format.
+§
+Package upgrade @types/node cap: set to latest available 24.x.x (e.g. ^24.13.2), not ^24.0.0. Check actual installed version after pnpm up and use that.
