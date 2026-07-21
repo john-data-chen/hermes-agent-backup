@@ -1,2 +1,15 @@
 .DS_Store
 *.lock
+*.pdf
+**/office/schemas/
+skills/.usage.json
+skills/.bundled_manifest
+skills/.curator_state
+.env
+auth.json
+state.db
+sessions/
+node_modules/
+__pycache__/
+*.pyc
+config.yaml
